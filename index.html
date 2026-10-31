@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SPM MODS - Discover Minecraft mods for Java and Bedrock.">
+  <title>SPM MODS | Minecraft Mods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="#" onclick="navigate('home');return false;" aria-label="SPM MODS home">
+    <span class="brand-mark"><span>SPM</span></span>
+    <span class="brand-name">SPM <b>MODS</b><small>MINECRAFT MODS</small></span>
+  </a>
+  <nav class="main-nav" id="mainNav">
+    <a data-page="home" class="active" href="#" onclick="navigate('home');return false;">Home</a>
+    <a data-page="mods" href="#" onclick="navigate('mods');return false;">Mods</a>
+    <a data-page="categories" href="#" onclick="navigate('categories');return false;">Categories</a>
+    <a data-page="about" href="#" onclick="navigate('about');return false;">About</a>
+  </nav>
+  <div class="header-actions">
+    <div class="edition-switch" aria-label="Choose Minecraft edition">
+      <button class="edition-btn selected" data-edition="Java" onclick="selectEdition('Java')">JAVA</button>
+      <button class="edition-btn" data-edition="Bedrock" onclick="selectEdition('Bedrock')">BEDROCK</button>
+    </div>
+    <button class="mobile-menu" aria-label="Open menu" onclick="document.getElementById('mainNav').classList.toggle('open')">☰</button>
+  </div>
+</header>
+
+<main id="homePage" class="page">
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">DISCOVER · DOWNLOAD · ENJOY</p>
+      <h1>SPM <span>MODS</span></h1>
+      <p class="hero-description" dir="rtl">اكتشف أفضل مودات ماينكرافت وطوّر تجربتك في اللعبة.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="navigate('mods')">استكشف المودات <span>↗</span></button>
+        <button class="btn btn-outline" onclick="openTrailer()">▷ مشاهدة التريلر</button>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true"><div class="moon"></div><div class="castle">♜</div><div class="hero-pixels"></div></div>
+    <div class="hero-edition">NOW SHOWING <b id="heroEdition">JAVA EDITION</b></div>
+  </section>
+
+  <section class="search-row">
+    <label class="search-box"><span>⌕</span><input id="homeSearch" type="search" placeholder="ابحث عن مود..." oninput="homeSearchChanged()"></label>
+    <span class="edition-note" id="editionNote">Showing Java mods</span>
+  </section>
+
+  <section class="content-section category-section" id="homeCategories">
+    <div class="section-heading"><div><p class="eyebrow mini">BROWSE BY TYPE</p><h2>Categories <span>الأقسام</span></h2></div><button class="text-link" onclick="navigate('categories')">View All <b>→</b></button></div>
+    <div class="category-grid" id="categoryGrid"></div>
+  </section>
+
+  <section class="content-section" id="most-downloaded">
+    <div class="section-heading"><div><p class="eyebrow mini">THE COMMUNITY'S FAVORITES</p><h2>Most Downloaded <span>الأكثر تحميلاً</span></h2></div><button class="text-link" onclick="openAll('Most Downloaded','downloads')">View All <b>→</b></button></div>
+    <div class="mod-grid" id="mostGrid"></div>
+  </section>
+  <section class="content-section">
+    <div class="section-heading"><div><p class="eyebrow mini">TRENDING RIGHT NOW</p><h2>Popular Mods <span>مودات شائعة</span></h2></div><button class="text-link" onclick="openAll('Popular Mods','popular')">View All <b>→</b></button></div>
+    <div class="mod-grid" id="popularGrid"></div>
+  </section>
+  <section class="content-section">
+    <div class="section-heading"><div><p class="eyebrow mini">FRESH FROM THE CREATORS</p><h2>New Mods <span>أحدث المودات</span></h2></div><button class="text-link" onclick="openAll('New Mods','new')">View All <b>→</b></button></div>
+    <div class="mod-grid" id="newGrid"></div>
+  </section>
+</main>
+
+<main id="modsPage" class="page hidden">
+  <section class="page-banner"><p class="eyebrow">SPM MODS LIBRARY</p><h1>All <span>Mods</span></h1><p dir="rtl">تصفح كل المودات المتاحة لنسخة اللعبة التي اخترتها.</p></section>
+  <section class="content-section all-mods-section">
+    <div class="all-tools">
+      <label class="search-box"><span>⌕</span><input id="allSearch" type="search" placeholder="Search mods..." oninput="renderAllMods()"></label>
+      <select id="sortSelect" onchange="renderAllMods()" aria-label="Sort mods"><option value="downloads">Most downloaded</option><option value="name">Name A-Z</option><option value="newest">Newest first</option></select>
+    </div>
+    <div class="filter-row" id="filterRow"></div>
+    <div class="results-line"><span id="resultsCount">0 mods</span><span id="allEditionLabel">JAVA EDITION</span></div>
+    <div class="mod-grid all-mod-grid" id="allModsGrid"></div>
+  </section>
+</main>
+
+<main id="categoriesPage" class="page hidden">
+  <section class="page-banner"><p class="eyebrow">FIND YOUR NEXT FAVORITE</p><h1>Mod <span>Categories</span></h1><p dir="rtl">اختار القسم اللي بتحبه واستكشف المودات.</p></section>
+  <section class="content-section"><div class="category-grid category-grid-large" id="allCategoryGrid"></div></section>
+</main>
+
+<main id="aboutPage" class="page hidden">
+  <section class="page-banner"><p class="eyebrow">ABOUT THE PLATFORM</p><h1>About <span>SPM MODS</span></h1><p dir="rtl">مكان واحد لاكتشاف مودات Minecraft وتحميلها بسهولة.</p></section>
+  <section class="content-section about-panel"><h2>Welcome to SPM MODS</h2><p dir="rtl">SPM MODS منصة لعرض مودات Minecraft وتنظيمها حسب نسخة اللعبة والتصنيف، مع صفحة مستقلة لكل مود تحتوي على فيديو الشرح والوصف ومعلومات التحميل.</p><p class="muted">Java Edition · Bedrock Edition · Mods · Tutorials</p></section>
+</main>
+
+<main id="detailsPage" class="page hidden">
+  <section class="details-view">
+    <button class="back-link" onclick="goBack()">← Back</button>
+    <div class="details-layout">
+      <section class="video-column"><div class="video-frame" id="detailVideo"><div class="play-button">▶</div><span>MOD PREVIEW VIDEO</span></div><p class="video-caption" dir="rtl">فيديو شرح واستعراض المود</p></section>
+      <section class="details-info">
+        <p class="eyebrow">SPM MODS · MOD DETAILS</p><h1 id="detailTitle">Mod name</h1>
+        <div class="detail-tags"><span id="detailEdition">Java</span><span id="detailVersion">1.20.1</span><span id="detailSize">45 MB</span></div>
+        <h3>About this mod <small>وصف المود</small></h3><p id="detailDescription" class="detail-description" dir="rtl"></p>
+        <div class="detail-facts"><div><small>GAME EDITION</small><b id="factEdition">JAVA</b></div><div><small>FILE SIZE</small><b id="factSize">45 MB</b></div><div><small>DOWNLOADS</small><b id="factDownloads">0</b></div></div>
+        <a id="downloadButton" class="btn btn-primary download-btn" href="#" target="_blank" rel="noopener">⬇ Download Mod</a>
+      </section>
+    </div>
+    <section class="content-section similar-section"><div class="section-heading"><div><p class="eyebrow mini">YOU MAY ALSO LIKE</p><h2>Similar Mods <span>مودات مشابهة</span></h2></div></div><div class="mod-grid" id="similarGrid"></div></section>
+  </section>
+</main>
+
+<div class="modal hidden" id="trailerModal" role="dialog" aria-modal="true" aria-label="SPM MODS trailer" onclick="if(event.target===this)closeTrailer()">
+  <div class="modal-box"><button class="modal-close" onclick="closeTrailer()">×</button><div class="video-frame trailer-frame"><div class="play-button">▶</div><span>SPM MODS TRAILER</span></div><p dir="rtl">مكان التريلر — هنضيف رابط الفيديو الحقيقي بعد ما تبعته.</p></div>
+</div>
+<footer id="footer"><a class="brand footer-brand" href="#" onclick="navigate('home');return false;"><span class="brand-mark"><span>SPM</span></span><span class="brand-name">SPM <b>MODS</b><small>MINECRAFT MODS</small></span></a><p dir="rtl">منصة لاكتشاف ومشاركة مودات Minecraft — Java & Bedrock.</p><span class="copyright">© 2026 SPM MODS. All rights reserved.</span></footer>
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+</body></html>
